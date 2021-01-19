@@ -29,26 +29,35 @@ class ProposalViewController: UIViewController {
     }()
     var proposalManager: ProposalManager!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         
-        addCancelImage()
-        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor = .white
+        addCancelImage()
         
         addSubviews()
         setupConstraints()
         
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        collectionView.backgroundColor = .white
+        collectionView.showsVerticalScrollIndicator = false
+        
         proposalManager = ProposalManager()
-        proposalManager.parserDataWithFile(fileName: "result")
+        
         dataProvider = DataProvider()
         dataProvider.proposalManager = proposalManager
         collectionView.delegate = dataProvider
         collectionView.dataSource = dataProvider
         collectionView.register(ProposalCell.self, forCellWithReuseIdentifier: String(describing: ProposalCell.self))
-        collectionView.showsVerticalScrollIndicator = false
         
+        proposalManager.parserDataWithFile(fileName: "result")
         dataFileManager = ParserJSONFileManager()
         guard let headProposal = proposalManager.headProposal()
         else {
@@ -57,7 +66,6 @@ class ProposalViewController: UIViewController {
         }
         configure(headProposal: headProposal)
     }
-    
     func configure(headProposal: HeadProposal) {
         self.headTitleLabel.text = headProposal.mainTitle
         self.chooseButton.setTitle(headProposal.titleActionButton, for: .normal)
@@ -71,7 +79,7 @@ class ProposalViewController: UIViewController {
         } else {
             title = headProposal!.actionTitle
         }
-        let alertController = UIAlertController(title: title, message: title, preferredStyle: .alert)
+        let alertController = UIAlertController(title: title, message: .none, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Продолжить", style: .default, handler: .none)
         let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: .none)
         

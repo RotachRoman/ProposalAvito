@@ -121,10 +121,6 @@ class ProposalViewControllerTests: XCTestCase {
         XCTAssertTrue(hasLeadingConstraint)
     }
     
-//    func testCancelImageViewHasWidthConstraint(){
-//
-//    }
-    
     func testHeadTitleLabelHasTopConstraint(){
         let hasTopConstraint = sut.view.constraints.contains { constraint -> Bool in
             return ((constraint.firstItem as? UILabel) == sut.headTitleLabel) &&

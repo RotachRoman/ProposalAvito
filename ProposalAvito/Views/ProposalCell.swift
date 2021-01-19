@@ -48,7 +48,6 @@ class ProposalCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupViews()
         setupConstraints()
     }
@@ -91,10 +90,9 @@ class ProposalCell: UICollectionViewCell {
         
         priceLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 14).isActive = true
         priceLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16).isActive = true
-        priceLabel.bottomAnchor.constraint(equalTo: safe.bottomAnchor, constant: -20).isActive = true
-//        priceLabel.trailingAnchor.constraint(lessThanOrEqualTo: markImageView.leadingAnchor, constant: -22).isActive = true
-        
-        contentView.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 22).isActive = true
+        let constraint = priceLabel.bottomAnchor.constraint(equalTo: safe.bottomAnchor, constant: -20)
+        constraint.priority = UILayoutPriority(1)
+        constraint.isActive = true
     }
     
     func configure(withProposal proposal: Proposal) {
@@ -105,21 +103,6 @@ class ProposalCell: UICollectionViewCell {
         guard let imageUrl = proposal.icon?.the52X52 else { return }
         conversionURLToImage(urlString: imageUrl)
     }
-    
-    private var isHeightCalculated: Bool? = false
-     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-         //Exhibit A - We need to cache our calculation to prevent a crash.
-         if !isHeightCalculated! {
-             setNeedsLayout()
-             layoutIfNeeded()
-             let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-             var newFrame = layoutAttributes.frame
-             newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-             layoutAttributes.frame = newFrame
-             isHeightCalculated = true
-         }
-         return layoutAttributes
-     }
  }
 
 extension ProposalCell {

@@ -42,12 +42,11 @@ extension DataProvider: UICollectionViewDataSource {
         proposalManager?.choose(at: indexPath.row)
         collectionView.reloadData()
     }
-    
 }
 
 extension DataProvider: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 180)
+        return CGSize(width: collectionView.bounds.width, height: 170)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

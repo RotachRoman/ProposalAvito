@@ -93,6 +93,7 @@ class ProposalManagerTests: XCTestCase {
         XCTAssertEqual(sut.proposal(at: 0).title, "XL объявление")
     }
     
+    // It test working
 //    func testAddWithTwoTrueNumber(){
 //        let proposal = Proposal(title: "Foo", price: "100", isSelect: true)
 //        let proposal2 = Proposal(title: "Bar", price: "200", isSelect: true)

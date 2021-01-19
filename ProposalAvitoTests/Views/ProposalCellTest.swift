@@ -302,7 +302,7 @@ class ProposalCellTest: XCTestCase {
         }
         XCTAssertTrue(hasBottomConstraint)
     }
-    
+    //it test working
 //    func testPriceLabelHasTrailingConstraint(){
 //        let hasTrailingConstraint = cell.contentView.constraints.contains { constraint -> Bool in
 //            return ((constraint.firstItem as? UILabel) == cell.priceLabel) &&
