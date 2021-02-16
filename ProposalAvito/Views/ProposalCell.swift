@@ -2,12 +2,18 @@
 //  ProposalCell.swift
 //  ProposalAvito
 //
-//  Created by Rotach Roman on 08.01.2021.
+//  Created by Rotach Roman on 05.02.2021.
 //
 
 import UIKit
 
 class ProposalCell: UICollectionViewCell {
+    
+    lazy var width: NSLayoutConstraint = {
+        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width )
+        width.isActive = true
+        return width
+    }()
     
     var markImageView: UIImageView = {
         let markImage = UIImage(named: "checkmark")
@@ -31,58 +37,58 @@ class ProposalCell: UICollectionViewCell {
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         label.attributedText = attributedString
         label.font = UIFont.systemFont(ofSize: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         setupViews()
         setupConstraints()
+    }
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        
+        width.constant = bounds.size.width
+        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 100))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews(){
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(priceLabel)
-        contentView.addSubview(iconImageView)
-        contentView.addSubview(markImageView)
+    fileprivate func setupViews(){
+        [titleLabel, descriptionLabel, priceLabel, iconImageView, markImageView].forEach { element in
+            contentView.addSubview(element)
+            element.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
-    func setupConstraints() {
+    fileprivate func setupConstraints() { //Hasn't Unit Test wight and height
         let safe = self.contentView.safeAreaLayoutGuide
         
         iconImageView.topAnchor.constraint(equalTo: safe.topAnchor, constant: 17).isActive = true
         iconImageView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 17).isActive = true
-        //Hasn't Unit Test wight and height
         iconImageView.widthAnchor.constraint(equalToConstant: 55).isActive = true
         iconImageView.heightAnchor.constraint(equalToConstant: 55).isActive = true
         
         markImageView.topAnchor.constraint(equalTo: safe.topAnchor, constant: 34).isActive = true
-        markImageView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -15).isActive = true
-        //Hasn't Unit Test wight and height
+        markImageView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -14).isActive = true
         markImageView.widthAnchor.constraint(equalToConstant: 21).isActive = true
         markImageView.heightAnchor.constraint(equalToConstant: 21).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: safe.topAnchor, constant: 16).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16).isActive = true
         titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: markImageView.leadingAnchor, constant: -22).isActive = true
-        ///
         
         descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16).isActive = true
@@ -90,9 +96,11 @@ class ProposalCell: UICollectionViewCell {
         
         priceLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 14).isActive = true
         priceLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16).isActive = true
-        let constraint = priceLabel.bottomAnchor.constraint(equalTo: safe.bottomAnchor, constant: -20)
-        constraint.priority = UILayoutPriority(1)
-        constraint.isActive = true
+//        let constraint = priceLabel.bottomAnchor.constraint(equalTo: safe.bottomAnchor, constant: -20)
+//        constraint.priority = UILayoutPriority(1)
+//        constraint.isActive = true
+        
+        contentView.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20).isActive = true
     }
     
     func configure(withProposal proposal: Proposal) {
@@ -125,3 +133,4 @@ extension ProposalCell {
         }.resume()
     }
 }
+

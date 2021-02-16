@@ -28,8 +28,8 @@ class ProposalViewControllerTests: XCTestCase {
     }
     
     func testHasCancelImageView(){
-        XCTAssertNotNil(sut.cancelImageView)
-        XCTAssertTrue(sut.cancelImageView.isDescendant(of: sut.view))
+        XCTAssertNotNil(sut.cancelButton)
+        XCTAssertTrue(sut.cancelButton.isDescendant(of: sut.view))
     }
     
     func testHasCollectionView(){
@@ -76,7 +76,7 @@ class ProposalViewControllerTests: XCTestCase {
     func testInitCancelImageWithTrueName() {
         let image = UIImage(named: "CloseIconTemplate")
         XCTAssertNotNil(image)
-        XCTAssertEqual(image, sut.cancelImageView.image)
+        XCTAssertEqual(image, sut.cancelButton.currentImage)
     }
     
     func testInitHeadTitleWithTitle(){
@@ -93,10 +93,10 @@ class ProposalViewControllerTests: XCTestCase {
 
     //MARK: - Constraints
     
-    func testCancelImageViewHasTopConstraint(){
+    func testCancelButtonHasTopConstraint(){
         let hasTopConstraint = sut.view.constraints.contains { constraint -> Bool in
-            return ((constraint.firstItem as? UIImageView) == sut.cancelImageView) &&
-                (constraint.firstAnchor == sut.cancelImageView.topAnchor) &&
+            return ((constraint.firstItem as? UIButton) == sut.cancelButton) &&
+                (constraint.firstAnchor == sut.cancelButton.topAnchor) &&
                 ((constraint.secondItem as? UILayoutGuide) == sut.view.safeAreaLayoutGuide) &&
                 (constraint.secondAnchor == sut.view.safeAreaLayoutGuide.topAnchor) &&
                 (constraint.relation == .equal) &&
@@ -107,10 +107,10 @@ class ProposalViewControllerTests: XCTestCase {
         XCTAssertTrue(hasTopConstraint)
     }
     
-    func testCancelImageViewHasLeadingConstraint(){
+    func testCancelButtonHasLeadingConstraint(){
         let hasLeadingConstraint = sut.view.constraints.contains { constraint -> Bool in
-            return ((constraint.firstItem as? UIImageView) == sut.cancelImageView) &&
-                (constraint.firstAnchor == sut.cancelImageView.leadingAnchor) &&
+            return ((constraint.firstItem as? UIButton) == sut.cancelButton) &&
+                (constraint.firstAnchor == sut.cancelButton.leadingAnchor) &&
                 ((constraint.secondItem as? UILayoutGuide) == sut.view.safeAreaLayoutGuide) &&
                 (constraint.secondAnchor == sut.view.safeAreaLayoutGuide.leadingAnchor) &&
                 (constraint.relation == .equal) &&
@@ -125,8 +125,8 @@ class ProposalViewControllerTests: XCTestCase {
         let hasTopConstraint = sut.view.constraints.contains { constraint -> Bool in
             return ((constraint.firstItem as? UILabel) == sut.headTitleLabel) &&
                 (constraint.firstAnchor == sut.headTitleLabel.topAnchor) &&
-                ((constraint.secondItem as? UIImageView) == sut.cancelImageView) &&
-                (constraint.secondAnchor == sut.cancelImageView.bottomAnchor) &&
+                ((constraint.secondItem as? UIButton) == sut.cancelButton) &&
+                (constraint.secondAnchor == sut.cancelButton.bottomAnchor) &&
                 (constraint.relation == .equal) &&
                 constraint.multiplier == 1.0 &&
                 constraint.constant == 38 &&

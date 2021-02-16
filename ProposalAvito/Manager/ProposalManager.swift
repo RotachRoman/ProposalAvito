@@ -9,17 +9,16 @@ import Foundation
 
 class ProposalManager {
     
-    private var numberChooseItem: Int?
-    private var isOneSelected: Bool = false
-    
     var proposalCount: Int {
         return proposals.count
     }
     
+    private var numberChooseItem: Int?
+    private var isOneSelected: Bool = false
     private var hProposal: HeadProposal? = nil
     private var proposals: [Proposal] = []
     
-    func add(proposal: Proposal, number: Int){
+    private func add(proposal: Proposal, number: Int){
         var newProposal = proposal
         
         if proposal.isSelect {
@@ -31,6 +30,10 @@ class ProposalManager {
             }
         }
         proposals.append(newProposal)
+    }
+    
+    func proposalsArr() -> [Proposal] {
+        return proposals
     }
     
     func headProposal() -> HeadProposal? {
@@ -63,17 +66,24 @@ class ProposalManager {
     }
     
     func parserDataWithFile(fileName: String){
-        let parcerJSON = ParserJSONFileManager()
-        guard let headProposal = parcerJSON.getData(forResource: fileName)
-        else {
-            print("Head Proposal equeal nil")
-            return
-        }
-        hProposal = headProposal
-        var i = 0
-        while (i < headProposal.proposals!.count){
-            add(proposal: headProposal.proposals![i], number: i)
-            i += 1
+        let network = DataFetcherService()
+        
+        network.fetchProposals {[weak self] welcome in
+            guard let self = self else { return }
+            
+            guard let welcome = welcome,
+            let headProposal = welcome.headProposal
+                  else {
+                print("Head Proposal equeal nil")
+                return
+            }
+                    
+            self.hProposal = headProposal
+            var i = 0
+            while (i < (headProposal.proposals!.count)){
+                self.add(proposal: headProposal.proposals![i], number: i)
+                i += 1
+            }
         }
     }
 }
